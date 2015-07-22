@@ -40,7 +40,6 @@ import com.lishid.openinv.internal.InventoryAccess;
 import com.lishid.openinv.internal.PlayerDataManager;
 import com.lishid.openinv.internal.SpecialEnderChest;
 import com.lishid.openinv.internal.SpecialPlayerInventory;
-import com.lishid.openinv.listeners.OpenInvEntityListener;
 import com.lishid.openinv.listeners.OpenInvInventoryListener;
 import com.lishid.openinv.listeners.OpenInvPlayerListener;
 
@@ -85,7 +84,6 @@ public class OpenInv extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
 
         pm.registerEvents(new OpenInvPlayerListener(), this);
-        pm.registerEvents(new OpenInvEntityListener(), this);
         pm.registerEvents(new OpenInvInventoryListener(), this);
     }
 

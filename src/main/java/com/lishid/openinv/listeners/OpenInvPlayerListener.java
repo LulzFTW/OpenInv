@@ -21,12 +21,14 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -146,6 +148,28 @@ public class OpenInvPlayerListener implements Listener {
                 if (player.getItemInHand().getType() == OpenInv.getOpenInvItem() && OpenInv.getPlayerItemOpenInvStatus(player) && OpenInv.hasPermission(player, Permissions.PERM_OPENINV)) {
                     player.performCommand("openinv");
                 }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+        Player player = event.getPlayer();
+        Entity clicked = event.getRightClicked();
+
+        if (!(clicked instanceof Player)) {
+            return;
+        }
+
+        if (player.getItemInHand().getType() == OpenInv.getOpenInvItem()) {
+            if (!OpenInv.getPlayerItemOpenInvStatus(player) || !OpenInv.hasPermission(player, Permissions.PERM_OPENINV)) {
+                return;
+            }
+
+            Player target = (Player) clicked;
+
+            event.setCancelled(true);
+
+            player.performCommand("openinv " + target.getName());
         }
     }
 }
